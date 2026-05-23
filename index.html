@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTM Test Site</title>
+
+  <!-- GTM snippet will go here -->
+
+</head>
+<body>
+
+  <h1>GTM Test Site</h1>
+
+  <div>
+    <h2>Test Actions</h2>
+
+    <button id="btn-cta" onclick="trackCTA()">Click CTA Button</button>
+    <br><br>
+    <button id="btn-product" onclick="trackProduct()">View Product</button>
+    <br><br>
+    <button id="btn-purchase" onclick="trackPurchase()">Complete Purchase</button>
+
+  </div>
+
+  <!-- Data Layer -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function trackCTA() {
+      dataLayer.push({
+        event: 'cta_click',
+        button_text: 'Click CTA Button',
+        page_section: 'hero'
+      });
+      alert('CTA Click event pushed to data layer');
+    }
+
+    function trackProduct() {
+      dataLayer.push({
+        event: 'view_item',
+        ecommerce: {
+          currency: 'USD',
+          value: 29.99,
+          items: [{
+            item_id: 'PROD_001',
+            item_name: 'Test Product',
+            item_category: 'Test Category',
+            price: 29.99,
+            quantity: 1
+          }]
+        }
+      });
+      alert('View Item event pushed to data layer');
+    }
+
+    function trackPurchase() {
+      dataLayer.push({ ecommerce: null });
+      dataLayer.push({
+        event: 'purchase',
+        ecommerce: {
+          transaction_id: 'TXN_' + Date.now(),
+          currency: 'USD',
+          value: 29.99,
+          items: [{
+            item_id: 'PROD_001',
+            item_name: 'Test Product',
+            item_category: 'Test Category',
+            price: 29.99,
+            quantity: 1
+          }]
+        }
+      });
+      alert('Purchase event pushed to data layer');
+    }
+  </script>
+
+</body>
+</html>
